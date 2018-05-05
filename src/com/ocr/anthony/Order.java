@@ -104,7 +104,7 @@ public void displaySelectedDrink(int nbDrink){
             System.out.println("Vous avez choisi comme boisson : soda");
             break;
         case 5:
-            System.out.println("Vous n'avez pas choisi de boisson parmi les choix proposés");
+            System.out.println("Vous n'avez pas choisi de boisson parmi les choix proposés");g
     }
 }
 }

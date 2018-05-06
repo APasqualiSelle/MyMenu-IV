@@ -1,8 +1,8 @@
 package com.ocr.anthony;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -55,14 +55,38 @@ public class OrderTest {
         order.displaySelectedMenu(-6);
         assertEquals("Vous n'avez pas choisi de menu parmi les choix proposés\n", outContent.toString().replace("\r\n", "\n"));
     }
+
     @Test
-    public void Given_ChikenInStandardInput_When_MenuIsRun_Then_DisplayCorrectProcess() {
-        System.setIn(new ByteArrayInputStream("1\n".getBytes()));
+    public void
+    Given_ChickenWithFriesAndWaterInStandardInput_When_MenuIsRun_Then_DisplayCorrectProcess(){
+        System.setIn(new ByteArrayInputStream("1\n2\n3\n".getBytes()));
         order = new Order();
         order.runMenu();
-        String output = outContent.toString().replace("\r\n", "\n");
-        assertEquals(output.endsWith("Vous avez choisi comme menu : poulet\n"), true);
-        assertEquals(output.length() > "Vous avez choisi comme menu : poulet\n".length(), true);
+        String[] output = outContent.toString().replace("\r\n", "\n").split("\n");
+        assertEquals("Vous avez choisi comme menu : poulet", output[5]);
+        assertEquals("Vous avez choisi comme accompagnment : frites", output[11]);
+        assertEquals("Vous avez choisi comme boisson : soda", output[17]);
+    }
+
+    @Test
+    public void Given_BeefWithVegetableInStandardInput_When_MenuIsRun_Then_DisplayCorrectProcess(){
+        System.setIn(new ByteArrayInputStream("2\n1\n".getBytes()));
+        order = new Order();
+        order.runMenu();
+        String[] output = outContent.toString().replace("r\n","\n").split("\n");
+        assertEquals("Vous avez choisi comme menu : bouf", output[5]);
+        assertEquals("Vous avez choisi comme accompagnment : légumes frais", output[11]);
+    }
+    @Test
+    public void
+    Given_VegetarianWithNoRiceAndSparklingWaterInStandardInput_When_MenuIsRun_Then_DisplayCorrectProcess(){
+        System.setIn(new ByteArrayInputStream("3\n2\n2n".getBytes()));
+        order = new Order();
+        order.runMenu();
+        String[] output = outContent.toString().replace("r\n", "\n").split("\n");
+        assertEquals("Vous avez choisi comme menu : végétarien",output[5]);
+        assertEquals("Vous avez choisi comme accompagnement : pas de riz", output[10]);
+        assertEquals("Vous avez choisi comme boisson : eau gazeuse",output);
     }
 
     @Test
@@ -89,8 +113,8 @@ public class OrderTest {
     @Test
     public void Given_BadValueAndAllSides_When_DisplaySideSelected_Then_DisplayErrorSentence(){
         order.displaySelectedSide(5, true);
-        String output = outContent.toString().replace("\r\n", "n");
-        assertEquals("Vous n'avez pas choisi d'accompagnement parmi les choix proposés\n", output);
+        String output = outContent.toString().replace("\r\n", "\n");
+        assertEquals("Vous n'avez pas choisi d'accompagnement parmi les choix proposés\n",output);
 
     }
 
